@@ -3,6 +3,10 @@ const passport = require('passport');
 const router = express.Router();
 const Users = require('../models').Users;
 const local = require('passport-local');
+const controller = require('../controllers/auth');
+
+router.post('/sign_up',controller.signUp);
+router.post('/sign_in',controller.signIn);
 
 router.post('/api', (req,res) => {
     Users.create({
