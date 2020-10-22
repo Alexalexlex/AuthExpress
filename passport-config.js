@@ -9,6 +9,8 @@ const opts = {
     secretOrKey: 'secret',
 }
 passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
+    console.log('aaa')
+    console.log(jwt_payload)
     Users.findOne({id: jwt_payload.id}, (err, user) => {
         if (err) {
             return done(err, false);

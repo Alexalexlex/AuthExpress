@@ -34,7 +34,7 @@ const signUp = async (req, res) => {
         first_name,
         last_name,
       })
-      res.setHeader('access-token', setToken(newbie.id))
+      res.setHeader('Authorization', setToken(newbie.id))
       res.status(201).send({
         success: true,
         message: newbie
@@ -65,7 +65,7 @@ const signIn = async (req,res) => {
           message: 'pshel!'
         })
       } else {
-        res.setHeader('access-token', setToken(user.id))
+        res.setHeader('Authorization', setToken(user.id))
         res.status(201).send({
           success: true,
           message: user,
