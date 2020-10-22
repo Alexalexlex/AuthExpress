@@ -1,22 +1,24 @@
-const { authenticate } = require('passport');
+const JwtStrategy = require('passport-jwt').Strategy,
+      ExtractJwt = require('passport-jwt').ExtractJwt;
 
-const LocalStrategy = require('passport-local').Strategy
-const Users = require('./models').Users
+const { Users } = require('./models');
 
-
-passport.use(new LocalStrategy({usernameField: 'email'},
-    function(email, password, done) {
-      Users.findOne({ email: email }, function (err, user) {
-        if (err) { return done(err); }
-        if (!user) {
-          return done(null, false, { message: 'Incorrect email.' });
+module.exports = (passport) => {
+const opts = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: 'secret',
+}
+passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
+    Users.findOne({id: jwt_payload.id}, (err, user) => {
+        if (err) {
+            return done(err, false);
         }
-        if (!user.validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' });
+        if (user) {
+            return done(null, user);
+        } else {
+            return done(null, false);
+            // or you could create a new account
         }
-        return done(null, user);
-      });
-    }
-  ));
-
-module.exports = authenticate
+    });
+}));
+};
