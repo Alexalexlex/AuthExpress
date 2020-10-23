@@ -3,6 +3,7 @@ const passport = require('passport');
 const router = express.Router();
 const controllerAuth = require('../controllers/auth');
 const controllerPosts = require('../controllers/posts')
+const controllerComments = require('../controllers/comments')
 
 require('../passport-config')(passport)
 
@@ -21,9 +22,14 @@ router.get('/profile', passport.authenticate('jwt', { session: false }),
 
 router.get('/posts', passport.authenticate('jwt', { session: false }), controllerPosts.getPosts);
 router.post('/posts', passport.authenticate('jwt', { session: false }), controllerPosts.postPost);
+router.get('/posts/:id', passport.authenticate('jwt', { session: false }), controllerPosts.getPostById);
+router.delete('/posts/:id', passport.authenticate('jwt', { session: false }), controllerPosts.delPost);
+router.put('/posts/:id', passport.authenticate('jwt', { session: false }), controllerPosts.editPost);
 
 // Comments
 
+router.get('/comments', passport.authenticate('jwt', { session: false }), controllerComments.getComments);
+router.post('/comments', passport.authenticate('jwt', { session: false }), controllerComments.postComment);
 
 
 /* GET home page. */ 

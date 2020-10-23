@@ -12,23 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Comments.belongsTo(models.Posts, {
-        foreignKey: 'commentable_id',
+        foreignKey: 'postId',
         constraints: false,
-      });
-      Comments.belongsTo(models.Comments, {
-        foreignKey: 'commentable_id',
-        targetKey: 'commentable_id',
-        constraints: false,
-      });
-      Comments.hasMany(models.Comments, {
-        foreignKey: 'commentable_id',
-        sourceKey: 'commentable_id',
-        constraints: false,
-        scope: {
-          commentable_type: 'Comment',
-        },
-        onDelete: 'CASCADE',
-        hooks: true,
       });
     }
   };

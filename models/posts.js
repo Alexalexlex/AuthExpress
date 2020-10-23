@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id',
       });
       Posts.hasMany(models.Comments, {
-        foreignKey: 'commentable_id',
+        foreignKey: 'postId',
         as: 'comments',
         scope: {
           commentable_type: 'Post',
