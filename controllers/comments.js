@@ -24,4 +24,24 @@ const postComment = (req,res) => {
     .catch((error) => res.status(400).send(error))
 }
 
-module.exports = { getComments, postComment }
+const getCommentsById = (req,res) => {
+    Comments.findAll({
+        where: {
+            postId: req.params.id,
+        }
+    })
+    .then((comment) => res.status(201).send(comment))
+    .catch((error) => res.status(400).send(error))
+}
+
+const delComment = (req, res) => {
+    Comments.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(() => res.status(201).send({success: 'Comment deleted'}))
+    .catch((error) => res.status(400).send(error))
+}
+
+module.exports = { getComments, postComment, getCommentsById, delComment }

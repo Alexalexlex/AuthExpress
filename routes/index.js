@@ -30,7 +30,8 @@ router.put('/posts/:id', passport.authenticate('jwt', { session: false }), contr
 
 router.get('/comments', passport.authenticate('jwt', { session: false }), controllerComments.getComments);
 router.post('/comments', passport.authenticate('jwt', { session: false }), controllerComments.postComment);
-
+router.get('/posts/:id/comments', passport.authenticate('jwt', { session: false }), controllerComments.getCommentsById);
+router.delete('/comments/:id', passport.authenticate('jwt', { session: false }), controllerComments.delComment);
 
 /* GET home page. */ 
 router.get('/', (req,res) => {
