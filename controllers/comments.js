@@ -44,4 +44,30 @@ const delComment = (req, res) => {
     .catch((error) => res.status(400).send(error))
 }
 
-module.exports = { getComments, postComment, getCommentsById, delComment }
+const editComment = (req, res) => {
+
+    const {
+        message,
+        commentable_type,
+        postId,
+    } = req.body
+
+    Comments.findOne({
+        where: {
+            id: Number(req.params.id)
+        }
+    })
+    .then((comment) => {
+        console.log('!!!!', comment)
+        comment.update({
+            message,
+            commentable_type,
+            user_id: req.user.id,
+            postId,
+        })
+        res.status(201).send(comment)
+    })
+    .catch((error) => res.status(400).send(error))
+}
+
+module.exports = { getComments, postComment, getCommentsById, delComment, editComment }
