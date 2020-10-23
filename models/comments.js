@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Comments.belongsTo(models.Posts, {
         foreignKey: 'postId',
-        constraints: false,
       });
     }
   };
@@ -21,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     message: DataTypes.STRING,
     user_id: DataTypes.INTEGER,
     commentable_type: DataTypes.STRING,
-    commentable_id: DataTypes.INTEGER,
     postId: DataTypes.INTEGER
   }, {
     sequelize,

@@ -11,12 +11,6 @@ module.exports = (sequelize, DataTypes) => {
       });
       Posts.hasMany(models.Comments, {
         foreignKey: 'postId',
-        as: 'comments',
-        scope: {
-          commentable_type: 'Post',
-        },
-        onDelete: 'CASCADE',
-        hooks: true,
       });
     }
   };

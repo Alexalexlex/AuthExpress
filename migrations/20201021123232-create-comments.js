@@ -17,9 +17,6 @@ module.exports = {
       commentable_type: {
         type: Sequelize.STRING
       },
-      commentable_id: {
-        type: Sequelize.INTEGER
-      },
       postId: {
         type: Sequelize.INTEGER
       },
