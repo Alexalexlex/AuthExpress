@@ -16,6 +16,7 @@ const postPost = (req,res) => {
     Posts.create({
         title,
         description,
+        user_id: req.user.id
     })
     .then((post) => res.status(201).send(post))
     .catch((error) => res.status(400).send(error))

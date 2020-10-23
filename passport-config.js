@@ -8,19 +8,16 @@ const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: 'secret',
 }
+
 passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
-    console.log('aaa')
-    console.log(jwt_payload)
-    Users.findOne({id: jwt_payload.id}, (err, user) => {
-        if (err) {
-            return done(err, false);
-        }
+    Users.findOne({where: { id: jwt_payload.id, }})
+    .then(user => {
         if (user) {
-            return done(null, user);
+            done(null, user);
         } else {
-            return done(null, false);
-            // or you could create a new account
+            done(null, false);
         }
-    });
+    })
+    .catch(() => done(err, false))
 }));
 };

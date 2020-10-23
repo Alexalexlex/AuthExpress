@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { Users } = require('../models');
 
-const setToken = (data) => {
-  const payload = { id: data.id };
+const setToken = (id) => {
+  const payload = { id: id };
   const token = jwt.sign(payload, 'secret', {
     expiresIn: 1000 * 1000,
   });
@@ -34,7 +34,7 @@ const signUp = async (req, res) => {
         first_name,
         last_name,
       })
-      res.setHeader('Authorization', setToken(newbie.id))
+      res.setHeader('Authorization', `Bearer ${setToken(newbie.id)}`)
       res.status(201).send({
         success: true,
         message: newbie
@@ -51,7 +51,7 @@ const signIn = async (req,res) => {
       email,
       password
     } = req.body;
-    const user = await Users.findOne({where:{email,},})
+    const user = await Users.findOne({where:{email}})
     if (!user) {
       res.status(400).send({
         success: false,
@@ -65,7 +65,7 @@ const signIn = async (req,res) => {
           message: 'pshel!'
         })
       } else {
-        res.setHeader('Authorization', setToken(user.id))
+        res.setHeader('Authorization', `Bearer ${setToken(user.id)}`)
         res.status(201).send({
           success: true,
           message: user,

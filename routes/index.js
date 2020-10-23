@@ -10,17 +10,20 @@ require('../passport-config')(passport)
 
 router.post('/sign_up',controllerAuth.signUp);
 router.post('/sign_in',controllerAuth.signIn);
-// router.post('/sign_in',passport.authenticate('jwt', { successRedirect: '/profile',
-// failureRedirect: '/' }) ,controller.signIn);
 
-router.post('/profile', passport.authenticate('jwt', { session: false }),
+router.get('/profile', passport.authenticate('jwt', { session: false }),
     function(req, res) {
-        res.send(req.user.profile);
+        res.send(req.user);
     }
 );
 
+// Posts
+
 router.get('/posts', passport.authenticate('jwt', { session: false }), controllerPosts.getPosts);
-router.post('/posts', controllerPosts.postPost);
+router.post('/posts', passport.authenticate('jwt', { session: false }), controllerPosts.postPost);
+
+// Comments
+
 
 
 /* GET home page. */ 
