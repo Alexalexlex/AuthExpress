@@ -9,7 +9,7 @@ const getPosts = (req,res) => {
 const getPostById = (req, res) => {
     Posts.findAll({
         where: {
-            user_id: req.params.id,
+            id: req.params.id,
         }
     })
     .then((post) => res.status(201).send(post))

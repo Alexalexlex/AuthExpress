@@ -36,7 +36,7 @@ router.put('/comments/:id', passport.authenticate('jwt', { session: false }), co
 
 /* GET home page. */ 
 router.get('/', (req,res) => {
-    res.send('<h1>Oliver Sykes say Noda is Sucks</h1>');
+    res.send('<h1>Noda</h1>');
   });
   
   module.exports = router;
