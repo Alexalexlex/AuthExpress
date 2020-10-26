@@ -58,7 +58,6 @@ const editComment = (req, res) => {
         }
     })
     .then((comment) => {
-        console.log('!!!!', comment)
         comment.update({
             message,
             commentable_type,
