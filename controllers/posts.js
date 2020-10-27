@@ -1,4 +1,4 @@
-const { Posts } = require('../models');
+const { Posts, Comments } = require('../models');
 
 const getPosts = (req,res) => {
     Posts.findAll()
@@ -40,6 +40,12 @@ const delPost = (req, res) => {
     })
     .then(() => res.status(201).send({success: 'Post deleted'}))
     .catch((error) => res.status(400).send(error))
+
+    Comments.destroy({
+        where: {
+            postId: req.params.id
+        }
+    })
 }
 
 const editPost = async (req,res) => {
