@@ -11,7 +11,6 @@ require('../passport-config')(passport)
 
 router.post('/sign_up',controllerAuth.signUp);
 router.post('/sign_in',controllerAuth.signIn);
-
 router.get('/profile', passport.authenticate('jwt', { session: false }),
     function(req, res) {
         res.send(req.user);
