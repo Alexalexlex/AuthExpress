@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { Users } = require('../models');
+const { User } = require('../models');
 
 const setToken = (id) => {
   const payload = { id: id };
@@ -18,26 +18,33 @@ const signUp = async (req, res) => {
       first_name,
       last_name,
     } = req.body;
-    const newUser = await Users.findOne({
+
+    const newUser = await User.findOne({
       where: { email, },
     })
+
     if (newUser) {
         res.status(400).send({
         success: false,
-        message: 'phel! Email has already in!',
+        message: 'Email has already in!',
       })
+
     } else {
       const hashPass = await bcrypt.hash(password, 10)
-      const newbie = await Users.create({
+      const newbie = await User.create({
         email,
         password: hashPass,
         first_name,
         last_name,
       })
-      res.setHeader('Authorization', `Bearer ${setToken(newbie.id)}`)
+
+      const token = setToken(newbie.id)
+
+      res.setHeader('Authorization', `Bearer ${token}`)
+
       res.status(201).send({
         success: true,
-        message: newbie
+        token: token,
       })
     }
   } catch (error) {
@@ -47,28 +54,34 @@ const signUp = async (req, res) => {
 
 const signIn = async (req,res) => {
   try {
+
     const {
       email,
       password
     } = req.body;
-    const user = await Users.findOne({where:{email}})
+
+    const user = await User.findOne({where:{email}})
+
+    console.log(user)
+
     if (!user) {
       res.status(400).send({
         success: false,
-        message: 'pshel! First of all Sign Up!'
+        message: 'First of all Sign Up!'
       })
     } else {
       const truepass = await bcrypt.compare(password, user.password)
       if (!truepass) {
          return res.status(400).send({
           success: false,
-          message: 'pshel!'
+          message: 'Error'
         })
       } else {
+        const token = setToken(user.id);
         res.setHeader('Authorization', `Bearer ${setToken(user.id)}`)
         res.status(201).send({
           success: true,
-          message: user,
+          token: token,
         })
       }
     }
