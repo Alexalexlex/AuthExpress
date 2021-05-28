@@ -44,7 +44,6 @@ const signUp = async (req, res) => {
 
       res.status(201).send({
         success: true,
-        token: token,
       })
     }
   } catch (error) {
