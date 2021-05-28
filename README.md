@@ -4,7 +4,7 @@
 
 npm i
 
-## First of all include app to postgreSQL
+## Include app to postgreSQL
 
 To do it use file ./config/config.json | Set your:
     "username": "here",
